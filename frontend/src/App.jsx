@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import './App.css'
 
@@ -12,16 +10,51 @@ const styles = {
 };
 
 function App() {
+  const [strokeColor, setStrokeColor] = useState('blue');
+  const [strokeWidth, setStrokeWidth] = useState(4);
+
   return (
     <>
-      <div className='center'>
-          <ReactSketchCanvas
-          style={styles}
-          className="canvas"
-          strokeWidth={4}
-          strokeColor="blue"
-          />
+    <body>
+        <header>
+          Simple drawing game with React
+        </header>
+        <div className='center'>
+            <div className='controls'>
+              <label>
+                Color: 
+              </label>
+              <select 
+                value={strokeColor} 
+                onChange={(e) => setStrokeColor(e.target.value)}
+              >
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+              </select>
+              <br/>
+              <label>
+                Stroke width:
+              </label>
+              <input 
+                type="range" 
+                min="1" 
+                max="10" 
+                value={strokeWidth} 
+                onChange={(e) => setStrokeWidth(e.target.value)} 
+              />
+              {strokeWidth}px
+            </div>
+            <ReactSketchCanvas
+            style={styles}
+            className="canvas"
+            strokeWidth={strokeWidth}
+            strokeColor={strokeColor}
+            />
         </div>
+    </body>
     </>
   )
 }
