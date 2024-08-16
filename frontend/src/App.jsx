@@ -11,6 +11,11 @@ function App() {
   const [strokeColor, setStrokeColor] = useState('blue');
   const [strokeWidth, setStrokeWidth] = useState(4);
   const [prompt, setPrompt] = useState("");
+  const [isEraser, setIsEraser] = useState(false);
+  
+  const toggleEraser = () => {
+    setIsEraser(!isEraser);
+  };
 
   return (
     <>
@@ -30,7 +35,6 @@ function App() {
                 <option value="blue">Blue</option>
                 <option value="green">Green</option>
                 <option value="black">Black</option>
-                <option value="white">White</option>
               </select>
             </div>
             <div className="toolbar-item">
@@ -44,14 +48,32 @@ function App() {
               />
               <span>{strokeWidth}px</span>
             </div>
+            <div className="toolbar-item">
+              <button onClick={toggleEraser}>
+                {isEraser ? 'Erase mode' : 'Draw mode'}
+              </button>
+            </div>
           </div>
             <ReactSketchCanvas
-            style={styles}
-            className="canvas"
-            strokeWidth={strokeWidth}
-            strokeColor={strokeColor}
+              style={styles}
+              className="canvas"
+              strokeWidth={strokeWidth}
+              strokeColor={strokeColor}
             />
-          </div>
+            
+            <div className='submission-bar'>
+              <div className="submission-bar-item">
+                <button>
+                  I don't like this prompt
+                </button>
+              </div>
+              <div className="submission-bar-item">
+                <button>
+                  Submit drawing
+                </button>
+              </div>
+            </div>
+        </div>
     </body>
     </>
   )
