@@ -30,7 +30,6 @@ header {
   background-color: white;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  margin-bottom: 2rem;
   width: 500px;
 }
 
@@ -49,6 +48,33 @@ header {
 .toolbar select {
   border: 1px solid #676767;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.toolbar button {
+  border: 1px solid #676767;
+  background-color: #ffffff;
+}
+
+.submission-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  width: 500px;
+}
+
+.submission-bar-item {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.submission-bar button {
+  border: 1px solid #676767;
+  background-color: #ffffff;
 }
 
 .canvas {
