@@ -3,27 +3,25 @@ import { ReactSketchCanvas } from 'react-sketch-canvas';
 import './App.css'
 
 const styles = {
-  border: '0.0625rem solid #9c9c9c',
-  borderRadius: '0.25rem',
-  width: '50vw', 
-  height: '50vh',
+  width: '500px', 
+  height: '500px',
 };
 
 function App() {
   const [strokeColor, setStrokeColor] = useState('blue');
   const [strokeWidth, setStrokeWidth] = useState(4);
+  const [prompt, setPrompt] = useState("");
 
   return (
     <>
     <body>
         <header>
-          Simple drawing game with React
+          Please draw: {prompt}
         </header>
         <div className='center'>
-            <div className='controls'>
-              <label>
-                Color: 
-              </label>
+          <div className="toolbar">
+            <div className="toolbar-item">
+              <label>Color: </label>
               <select 
                 value={strokeColor} 
                 onChange={(e) => setStrokeColor(e.target.value)}
@@ -34,26 +32,26 @@ function App() {
                 <option value="black">Black</option>
                 <option value="white">White</option>
               </select>
-              <br/>
-              <label>
-                Stroke width:
-              </label>
+            </div>
+            <div className="toolbar-item">
+              <label>Stroke width: </label>
               <input 
                 type="range" 
                 min="1" 
-                max="10" 
+                max="20" 
                 value={strokeWidth} 
                 onChange={(e) => setStrokeWidth(e.target.value)} 
               />
-              {strokeWidth}px
+              <span>{strokeWidth}px</span>
             </div>
+          </div>
             <ReactSketchCanvas
             style={styles}
             className="canvas"
             strokeWidth={strokeWidth}
             strokeColor={strokeColor}
             />
-        </div>
+          </div>
     </body>
     </>
   )
