@@ -36,7 +36,7 @@ function App() {
     <>
     <body>
         <header>
-          Please draw: {prompt}
+          <h1>Please draw: {prompt}</h1>
         </header>
         <div className='center'>
           <div className="toolbar">
