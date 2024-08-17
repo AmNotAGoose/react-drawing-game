@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import './App.css'
+import { getPrompt, postDrawing } from './services/api';
 
 const styles = {
   width: '500px', 
@@ -12,10 +13,24 @@ function App() {
   const [strokeWidth, setStrokeWidth] = useState(4);
   const [prompt, setPrompt] = useState("");
   const [isEraser, setIsEraser] = useState(false);
-  
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    
+    return () => {
+      connection.disconnect();
+    };
+  }, []);
+
   const toggleEraser = () => {
     setIsEraser(!isEraser);
+    canvasRef.current.eraseMode(!isEraser)
   };
+
+  const exportAsImage = async () => {
+    const url = await canvasRef.current.exportImage('png')
+    postDrawing(url)
+  }
 
   return (
     <>
@@ -42,7 +57,7 @@ function App() {
               <input 
                 type="range" 
                 min="1" 
-                max="20" 
+                max="50" 
                 value={strokeWidth} 
                 onChange={(e) => setStrokeWidth(e.target.value)} 
               />
@@ -55,9 +70,11 @@ function App() {
             </div>
           </div>
             <ReactSketchCanvas
+              ref={canvasRef}
               style={styles}
               className="canvas"
               strokeWidth={strokeWidth}
+              eraserWidth={strokeWidth}
               strokeColor={strokeColor}
             />
             
@@ -68,7 +85,7 @@ function App() {
                 </button>
               </div>
               <div className="submission-bar-item">
-                <button>
+                <button onClick={exportAsImage}>
                   Submit drawing
                 </button>
               </div>
