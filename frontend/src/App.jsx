@@ -31,7 +31,12 @@ function App() {
 
   const exportAsImage = async () => {
     const url = await canvasRef.current.exportImage('png')
-    await postDrawing(currentUser.token, {image: url})
+    console.log(currentUser)
+    await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: "among us"})
+  }
+
+  const sendPromptRequest = async () => {
+
   }
 
   return (
