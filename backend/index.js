@@ -5,6 +5,8 @@ const admin = require('firebase-admin');
 const serviceAccount = require("./react-drawing-679de-firebase-adminsdk-ru2o4-ae9598f0bb.json");
 const Drawing = require('./models/Drawing.js');
 const Prompt = require('./models/Prompt.js');
+const timestamp = require('unix-timestamp');
+const { v4: uuidv4 } = require('uuid');
 
 // firebase auth
 admin.initializeApp({
@@ -45,17 +47,20 @@ app.get('/api/protected/prompt', async (req, res) => {
 });
 
 app.post('/api/protected/submit', async (req, res) => {
-    const { user, drawing, timestamp, uuid } = req.body;
+    const { user, drawing, prompt } = req.body;
 
-    if (!user || !drawing || !timestamp || !uuid) {
+    if (!user || !drawing || !prompt) {
         return res.status(400).json({ error: 'some field is missing' });
     }
 
+    const t = timestamp.now();
+    const u = uuidv4();
     const newDrawing = new Drawing({
         user,
         drawing,
-        timestamp,
-        uuid,
+        prompt,
+        timestamp: t,
+        uuid: u,
     });
 
     try {
@@ -69,7 +74,7 @@ app.post('/api/protected/submit', async (req, res) => {
 
 // init servers
 
-const APP_PORT = process.env.PORT || 33993;
+const APP_PORT = 33993;
 
 app.listen(APP_PORT, () => {
     console.log(`Server is running on port ${APP_PORT}`);

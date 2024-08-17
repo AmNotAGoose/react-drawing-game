@@ -12,6 +12,11 @@ const drawingSchema = new Schema({
         required: true,
         unique: false,
     },
+    prompt: {
+        type: Buffer,
+        required: true,
+        unique: false,
+    },
     timestamp: {
         type: String,
         required: true,

@@ -17,7 +17,7 @@ export const getPrompt = async (token) => {
 export const postDrawing = async (token, data) => {
     try {
         const axios = await createAxiosInstance(token);
-        const response = await axios.post(`${API_URL}/api/protected/drawing`, data);
+        const response = await axios.post(`${API_URL}/api/protected/submit`, data);
         console.log('Post request was successful');
         return response.data;
     } catch (error) {
