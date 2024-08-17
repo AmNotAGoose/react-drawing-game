@@ -1,3 +1,4 @@
+//chatgpt used for implementing loading state
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { onAuthStateChanged, signOut, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from './services/firebase';
