@@ -31,7 +31,7 @@ function App() {
 
   const exportAsImage = async () => {
     const url = await canvasRef.current.exportImage('png')
-    postDrawing(url)
+    await postDrawing(currentUser.token, {image: url})
   }
 
   return (
