@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27018:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: your-user-name
+      MONGO_INITDB_ROOT_PASSWORD: your-password
+    volumes:
+      - mongo-data-react-drawing-game/data/db
+volumes:
+  mongo-react-drawing-game:
