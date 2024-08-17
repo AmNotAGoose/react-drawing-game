@@ -18,7 +18,7 @@ function App() {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    
+    sendPromptRequest();
     return () => {
       connection.disconnect();
     };
@@ -31,12 +31,14 @@ function App() {
 
   const exportAsImage = async () => {
     const url = await canvasRef.current.exportImage('png')
-    console.log(currentUser)
     await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: "among us"})
   }
 
   const sendPromptRequest = async () => {
-
+    getPrompt(currentUser.accessToken).then((p) => {
+      console.log(p)
+      setPrompt(p)
+    })
   }
 
   return (
@@ -86,7 +88,7 @@ function App() {
             />    
             <div className='submission-bar'>
               <div className="submission-bar-item">
-                <button>
+                <button onClick={sendPromptRequest}>
                   I don't like this prompt
                 </button>
               </div>
