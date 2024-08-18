@@ -14,7 +14,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [curUser, setCurUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurUser(user);

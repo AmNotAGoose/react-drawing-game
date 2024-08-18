@@ -4,6 +4,7 @@ import './App.css'
 import { getPrompt, postDrawing } from './services/api';
 import { useAuth } from './AuthProvider';
 
+
 const styles = {
   width: '500px', 
   height: '500px',
@@ -15,13 +16,11 @@ function App() {
   const [prompt, setPrompt] = useState("");
   const [isEraser, setIsEraser] = useState(false);
   const canvasRef = useRef(null);
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
+  const [leaderboard, setLeaderboard] = useState([1, 2, 3]);
 
   useEffect(() => {
     sendPromptRequest();
-    return () => {
-      connection.disconnect();
-    };
   }, []);
 
   const toggleEraser = () => {
@@ -31,7 +30,7 @@ function App() {
 
   const exportAsImage = async () => {
     const url = await canvasRef.current.exportImage('png')
-    await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: "among us"})
+    await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: prompt})
   }
 
   const sendPromptRequest = async () => {
@@ -99,8 +98,18 @@ function App() {
             </div>
           </div>
             <div className='leaderboard-panel'>
-              <div className='user-box'> 
+              <div className='leaderboard-container'> 
+                {leaderboard.map((e, i) => (
+                  <div key={i} className="leaderboard-entry">
+                    <div className="leaderboard-rank">{i + 1}.</div>
+                  </div>
+                ))}
+              </div>
+              <div className='profile-box'> 
                 {currentUser.displayName}
+                <button onClick={logout}>
+                  Log out
+                </button>
               </div>
             </div>
         </div>
