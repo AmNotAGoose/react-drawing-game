@@ -23,6 +23,7 @@ function App() {
   useEffect(() => {
     const init = async () => {
       try {
+        
         await handleGetPrompt();
         await handleGetPoints();
         await createLeaderboard();
