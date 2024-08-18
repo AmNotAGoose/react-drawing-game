@@ -1,3 +1,4 @@
+//chatgpt used to help with registering a new user in own database (not firebase)
 const express = require('express');
 const db = require('./db/connection.js');
 const cors = require('cors');
@@ -7,6 +8,7 @@ const Drawing = require('./models/Drawing.js');
 const Prompt = require('./models/Prompt.js');
 const timestamp = require('unix-timestamp');
 const { v4: uuidv4 } = require('uuid');
+const User = require('./models/User.js');
 
 // firebase auth
 admin.initializeApp({
@@ -17,11 +19,24 @@ const verifyToken = async (req, res, next) => {
     const idToken = req.headers.authorization.split('Bearer ')[1];
     
     try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      req.user = decodedToken;
-      next();
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        req.user = decodedToken;
+
+        let user = await User.findOne({ uid: decodedToken.uid });
+
+        if (!user) {
+            user = new User({
+                uid: decodedToken.uid,
+                name: decodedToken.name,
+                points: 0, 
+                uuid: uuidv4(), 
+            });
+            await user.save();
+        }
+        req.userRecord = user;
+        next();
     } catch (error) {
-      res.status(401).send('Unauthorized');
+        res.status(401).send('Unauthorized');
     }
 };
  
@@ -65,7 +80,12 @@ app.post('/api/protected/submit', async (req, res) => {
 
     try {
         const savedDrawing = await newDrawing.save();
-        res.status(201).json({ message: 'Drawing saved!', data: savedDrawing });
+        const oldUser = await User.findOne({ uid: user });
+        await User.findOneAndUpdate(
+            {uid: user},
+            {points: oldUser.points + 1},
+        )
+        res.status(201).json({ message: 'Drawing saved! Points added!', data: savedDrawing });
     } catch (error) {
         console.error('Error sending message:', error);
         res.status(500).json({ error: 'Internal server error' });
