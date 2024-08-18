@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     const init = async () => {
       try {
-        
+
         await handleGetPrompt();
         await handleGetPoints();
         await createLeaderboard();
@@ -42,7 +42,9 @@ function App() {
 
   const exportAsImage = async () => {
     const url = await canvasRef.current.exportImage('png')
-    await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: prompt})
+    await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: prompt}).then(() => {
+      window.location.reload(); 
+    })
   }
 
   const handleGetPrompt = async () => {
@@ -128,16 +130,20 @@ function App() {
                   <div key={i} className="leaderboard-entry">
                     <div className="leaderboard-rank">{i + 1}.</div>
                     {e.name}
-                    {e.points}
+                    <div className="leaderboard-points">{e.points}</div>
                   </div>
                 ))}
               </div>
               <div className='profile-box'> 
-                {currentUser.displayName}
-                <button onClick={logout}>
-                  Log out
-                </button>
-                {userPoints}
+                <div className='user-box'>
+                  <div>
+                    {currentUser.displayName} &nbsp;
+                    {userPoints}
+                  </div>
+                  <button onClick={logout}>
+                    Log out
+                  </button>
+                </div>
               </div>
             </div>
         </div>

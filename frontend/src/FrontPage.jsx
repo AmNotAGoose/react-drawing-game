@@ -8,7 +8,9 @@ function FrontPage() {
             <h1>Drawing Game</h1>
           </header>
           <br/>
-          
+          <div>
+            aef
+          </div>
           <footer className="footer"/>
         </div>
     );
