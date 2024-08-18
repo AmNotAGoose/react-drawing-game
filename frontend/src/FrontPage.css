@@ -6,10 +6,13 @@ body {
   .front-page {
     text-align: center;
     color: #003b6d;
+    
   }
 
   .front-page div {
+    justify-self: center;
     background-color: #bdbdbd;
+    width: 1000px;
   }
   
   .header {
