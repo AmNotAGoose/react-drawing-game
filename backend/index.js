@@ -48,10 +48,10 @@ const verifyToken = async (req, res, next) => {
 
 const app = express();
 app.use('*', cors({
-    origin: ['http://85.131.172.30', 'http://85.131.172.30:39912'],
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }));
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 app.use('/api/protected', verifyToken);
 
