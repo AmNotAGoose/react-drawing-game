@@ -51,6 +51,39 @@ app.get('/api', (req, res) => {
     res.send('hey there');
 });
 
+app.get('/api/protected/user/points', async (req, res) => {
+    const { uid } = req.query;
+
+    if (!uid ) {
+        return res.status(400).json({ error: 'some field is missing' });
+    }
+
+    try {
+        const results = await Prompt.findOne({uid: uid});
+        res.json(results.points);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/api/protected/leaderboard', async (req, res) => {
+    const { uid } = req.body;
+
+    if (!uid ) {
+        return res.status(400).json({ error: 'some field is missing' });
+    }
+
+    try {
+        const results = await Prompt.findOne({uid: uid});
+        res.json(results.points);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 app.get('/api/protected/prompt', async (req, res) => {
     try {
         const results = await Prompt.find({});
