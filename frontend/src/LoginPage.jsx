@@ -1,5 +1,6 @@
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';
 
 function LoginPage() {
     const { loginWithGoogle } = useAuth();
@@ -14,8 +15,8 @@ function LoginPage() {
     };
 
     return (
-        <div>
-        <button onClick={handleGoogleLogin}>Login with Google</button>
+        <div className='login-module'>
+            <button onClick={handleGoogleLogin}>Login with Google</button>
         </div>
     );
 }
