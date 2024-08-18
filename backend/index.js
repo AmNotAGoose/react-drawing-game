@@ -23,19 +23,23 @@ const verifyToken = async (req, res, next) => {
         req.user = decodedToken;
 
         let user = await User.findOne({ uid: decodedToken.uid });
-
-        if (!user) {
-            user = await User.findOneAndUpdate(
-                { uid: decodedToken.uid },
-                { $setOnInsert: { name: decodedToken.name, points: 0, uuid: uuidv4() } },
-                { new: true, upsert: true, }
-            );    
-            
-            await user.save();
+        try {
+            if (!user) {
+                user = new User({
+                    uid: decodedToken.uid,
+                    name: decodedToken.name,
+                    points: 0, 
+                    uuid: uuidv4(), 
+                });
+                await user.save();
+            }
+            req.userRecord = user;
+            next();
+        } catch {
+            console.log("bad fix for duplicate user creation bug")
         }
-        req.userRecord = user;
-        next();
     } catch (error) {
+        
         res.status(401).send('Unauthorized');
     }
 };
