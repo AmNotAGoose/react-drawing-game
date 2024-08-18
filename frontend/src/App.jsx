@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import './App.css'
-import { getPrompt, postDrawing, getPoints } from './services/api';
+import { getPrompt, postDrawing, getPoints, getLeaderboard } from './services/api';
 import { useAuth } from './AuthProvider';
 
 
@@ -17,12 +17,21 @@ function App() {
   const [isEraser, setIsEraser] = useState(false);
   const canvasRef = useRef(null);
   const { currentUser, logout } = useAuth();
-  const [leaderboard, setLeaderboard] = useState([1, 2, 3]);
+  const [leaderboard, setLeaderboard] = useState([]);
   const [userPoints, setUserPoints] = useState(null);
 
   useEffect(() => {
-    handleGetPrompt();
-    handleGetPoints();
+    const init = async () => {
+      try {
+        await handleGetPrompt();
+        await handleGetPoints();
+        await createLeaderboard();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+  
+    init();
   }, []);
 
   const toggleEraser = () => {
@@ -44,6 +53,13 @@ function App() {
   const handleGetPoints = async () => {
     getPoints(currentUser.accessToken, currentUser.uid).then((p) => {
       setUserPoints(p)
+    })
+  }
+
+  const createLeaderboard = async () => {
+    await getLeaderboard(currentUser.accessToken).then((p) => {
+      setLeaderboard(p)
+      console.log(leaderboard)
     })
   }
 
@@ -110,6 +126,8 @@ function App() {
                 {leaderboard.map((e, i) => (
                   <div key={i} className="leaderboard-entry">
                     <div className="leaderboard-rank">{i + 1}.</div>
+                    {e.name}
+                    {e.points}
                   </div>
                 ))}
               </div>

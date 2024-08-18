@@ -1,4 +1,4 @@
-//chatgpt used to help with registering a new user in own database (not firebase)
+//chatgpt used to help with registering a new user in own database (not firebase) and firebase functions for new user creation
 const express = require('express');
 const db = require('./db/connection.js');
 const cors = require('cors');
@@ -25,12 +25,12 @@ const verifyToken = async (req, res, next) => {
         let user = await User.findOne({ uid: decodedToken.uid });
 
         if (!user) {
-            user = new User({
-                uid: decodedToken.uid,
-                name: decodedToken.name,
-                points: 0, 
-                uuid: uuidv4(), 
-            });
+            user = await User.findOneAndUpdate(
+                { uid: decodedToken.uid },
+                { $setOnInsert: { name: decodedToken.name, points: 0, uuid: uuidv4() } },
+                { new: true, upsert: true, }
+            );    
+            
             await user.save();
         }
         req.userRecord = user;
@@ -68,15 +68,9 @@ app.get('/api/protected/user/points', async (req, res) => {
 });
 
 app.get('/api/protected/leaderboard', async (req, res) => {
-    const { uid } = req.body;
-
-    if (!uid ) {
-        return res.status(400).json({ error: 'some field is missing' });
-    }
-
     try {
-        const results = await Prompt.findOne({uid: uid});
-        res.json(results.points);
+        const results = await User.find({}).sort({ points: -1 })
+        res.json(results);
     } catch (error) {
         console.error('Error fetching messages:', error);
         res.status(500).json({ error: 'Internal server error' });
