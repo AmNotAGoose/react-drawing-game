@@ -59,7 +59,7 @@ app.get('/api/protected/user/points', async (req, res) => {
     }
 
     try {
-        const results = await Prompt.findOne({uid: uid});
+        const results = await User.findOne({uid: uid});
         res.json(results.points);
     } catch (error) {
         console.error('Error fetching messages:', error);
