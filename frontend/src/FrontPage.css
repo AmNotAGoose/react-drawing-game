@@ -1,40 +1,30 @@
-/* chatgpt used for initial template, colors, margins, and padding changed */
-body {
-    background-color: #ebedf3;
-  }
-  
-  .front-page {
-    text-align: center;
-    color: #003b6d;
-    
-  }
+/* rewritten without ai */
+.front-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
-  .front-page div {
-    justify-self: center;
-    background-color: #bdbdbd;
-    width: 1000px;
-  }
-  
-  .header {
-    background-color: #003b6d;
-    color: #ffffff;
-    padding: 20px;
-  }
-  
-  .header h1 {
-    margin: 0;
-  }
-  
-  .footer {
-    background-color: #003b6d;
-    color: #ffffff;
-    padding: 10px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
-  
-  .footer p {
-    margin: 0;
-  }
-  
+.header {
+  width: 100%;
+  background-color: #003b6d;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  width: 500px;
+  background-color: #d2d2d2;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.footer {
+  width: 100%;
+  background-color: #003b6d;
+  padding-top: 20px;
+}
