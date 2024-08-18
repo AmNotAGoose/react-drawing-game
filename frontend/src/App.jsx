@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import './App.css'
-import { getPrompt, postDrawing } from './services/api';
+import { getPrompt, postDrawing, getPoints } from './services/api';
 import { useAuth } from './AuthProvider';
 
 
@@ -18,9 +18,11 @@ function App() {
   const canvasRef = useRef(null);
   const { currentUser, logout } = useAuth();
   const [leaderboard, setLeaderboard] = useState([1, 2, 3]);
+  const [userPoints, setUserPoints] = useState(null);
 
   useEffect(() => {
-    sendPromptRequest();
+    handleGetPrompt();
+    handleGetPoints();
   }, []);
 
   const toggleEraser = () => {
@@ -33,14 +35,20 @@ function App() {
     await postDrawing(currentUser.accessToken, {user: currentUser.uid, drawing: url, prompt: prompt})
   }
 
-  const sendPromptRequest = async () => {
+  const handleGetPrompt = async () => {
     getPrompt(currentUser.accessToken).then((p) => {
       setPrompt(p['prompt'])
     })
   }
 
+  const handleGetPoints = async () => {
+    getPoints(currentUser.accessToken, currentUser.uid).then((p) => {
+      setUserPoints(p)
+    })
+  }
+
   return (
-    <body>
+    <div>
         <header>
           <h1>Please draw: {prompt}</h1>
         </header>
@@ -86,7 +94,7 @@ function App() {
             />    
             <div className='submission-bar'>
               <div className="submission-bar-item">
-                <button onClick={sendPromptRequest}>
+                <button onClick={handleGetPrompt}>
                   I don't like this prompt
                 </button>
               </div>
@@ -110,10 +118,11 @@ function App() {
                 <button onClick={logout}>
                   Log out
                 </button>
+                {userPoints}
               </div>
             </div>
         </div>
-    </body>
+    </div>
   )
 }
 
