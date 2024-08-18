@@ -13,6 +13,17 @@ export const getPoints = async (token, data) => {
     }
 };
 
+export const getLeaderboard = async (token) => {
+    try {
+        const axios = await createAxiosInstance(token);
+        const response = await axios.get(`${API_URL}/api/protected/leaderboard`);
+        return response.data;
+    } catch (error) {
+        console.error('Error getting prompt:', error);
+        throw error;
+    }
+};
+
 export const getPrompt = async (token) => {
     try {
         const axios = await createAxiosInstance(token);
