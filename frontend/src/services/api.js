@@ -6,7 +6,7 @@ export const getPrompt = async (token) => {
     try {
         const axios = await createAxiosInstance(token);
         const response = await axios.get(`${API_URL}/api/protected/prompt`);
-        console.log("prompt recieved");
+        console.log("prompt recieved", response);
         return response.data;
     } catch (error) {
         console.error('Error getting prompt:', error);

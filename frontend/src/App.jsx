@@ -36,8 +36,7 @@ function App() {
 
   const sendPromptRequest = async () => {
     getPrompt(currentUser.accessToken).then((p) => {
-      console.log(p)
-      setPrompt(p)
+      setPrompt(p['prompt'])
     })
   }
 
