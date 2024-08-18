@@ -8,12 +8,12 @@ const drawingSchema = new Schema({
         unique: false,
     },
     drawing: {
-        type: Buffer,
+        type: String,
         required: true,
         unique: false,
     },
     prompt: {
-        type: Buffer,
+        type: String,
         required: true,
         unique: false,
     },

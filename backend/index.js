@@ -38,8 +38,8 @@ app.get('/api', (req, res) => {
 
 app.get('/api/protected/prompt', async (req, res) => {
     try {
-        const results = await Prompt.find({}); //later choose a random one
-        res.json(results);
+        const results = await Prompt.find({});
+        res.json(results[Math.floor(Math.random() * results.length)]);
     } catch (error) {
         console.error('Error fetching messages:', error);
         res.status(500).json({ error: 'Internal server error' });
