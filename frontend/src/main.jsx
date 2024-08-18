@@ -9,13 +9,13 @@ import './index.css'
 
 createRoot(document.getElementById('root')).render
 (
-  <AuthProvider>
-    <BrowserRouter>
-      <Routes>  
-        <Route path="/" element={<FrontPage />}/>
-        <Route path="/login" element={<LoginPage />}/>
-        <Route path="/draw" element={<App />}/>
-      </Routes>
-    </BrowserRouter>
-  </AuthProvider>,
+  <BrowserRouter>
+    <AuthProvider>
+        <Routes>  
+          <Route path="/" element={<FrontPage />}/>
+          <Route path="/login" element={<LoginPage />}/>
+          <Route path="/draw" element={<App />}/>
+        </Routes>
+    </AuthProvider>
+  </BrowserRouter>,
 )
